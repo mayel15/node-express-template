@@ -9,7 +9,8 @@
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
     "build": "tsc",
-    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
+    "migrate:db": "npx prisma migrate dev",
+    "dev": "dotenv -e ./env/.env.dev concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec"
   },
   "nodemonConfig": {
@@ -27,12 +28,15 @@
     "concurrently": "^8.2.2",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
+    "prisma": "^5.14.0",
     "tslint": "^5.20.1",
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@prisma/client": "^5.14.0",
     "@types/node": "^20.12.12",
     "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "morgan": "^1.10.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",

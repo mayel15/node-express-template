@@ -1,9 +1,9 @@
 // src/app.ts
-import express from 'express';
-import dotenv from 'dotenv';
-import userRoutes from './routes/user.routes';
+import express from "express";
+import dotenv from "dotenv";
+import userRoutes from "./routes/user.routes";
 import swaggerUi from "swagger-ui-express";
-import morgan from 'morgan';
+import morgan from "morgan";
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -15,17 +15,16 @@ app.use(morgan("tiny"));
 app.use(express.static("public"));
 
 app.use(
-    "/docs",
-    swaggerUi.serve,
-    swaggerUi.setup(undefined, {
-      swaggerOptions: {
-        url: "/swagger.json",
-      },
-    })
-  );
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: {
+      url: "/swagger.json",
+    },
+  })
+);
 
-app.use('/api/users', userRoutes);
-
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 

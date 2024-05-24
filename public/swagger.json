@@ -10,9 +10,9 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "senwata-back",
+		"title": "node-express-template",
 		"version": "1.0.0",
-		"description": "backend of senwata app",
+		"description": "backend app template with node, express, prisma, ts",
 		"license": {
 			"name": "ISC"
 		},
@@ -30,18 +30,40 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										}
+									"items": {
+										"properties": {
+											"name": {
+												"type": "string"
+											},
+											"email": {
+												"type": "string"
+											},
+											"id": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"required": [
+											"name",
+											"email",
+											"id"
+										],
+										"type": "object"
 									},
-									"required": [
-										"message"
-									],
-									"type": "object"
+									"type": "array"
 								}
 							}
 						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"204": {
+						"description": "No content"
 					}
 				},
 				"security": [],

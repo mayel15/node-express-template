@@ -7,4 +7,8 @@ prisma/migrations
 #env
 .env
 #swagger docs
-./public
+public
+#vscode
+.vscode
+#db persistance
+pg_db
