@@ -1,0 +1,49 @@
+name: cicd template
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+    #- name: Deploy to OVH Hosting for example
+    #  uses: SamKirkland/FTP-Deploy-Action@4.3.3
+    #  with:
+    #    server: ${{ secrets.OVH_FTP_SERVER }}
+    #    username: ${{ secrets.OVH_FTP_USERNAME }}
+    #    password: ${{ secrets.OVH_FTP_PASSWORD }}
+    #    local-dir: ./dist/
+    #    server-dir: /www/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: yonebi-version-1
+        path: ./dist
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: yonebi-version-1
+        path: 'build'
