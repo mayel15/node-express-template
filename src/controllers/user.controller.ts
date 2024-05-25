@@ -9,17 +9,19 @@ export default class UserController {
 
   @Get("/")
   public async getAllUsers() {
-    const users = await this.prisma.user.findMany();
-    return users;
+    return { message: "All the users are here dude" };
   }
 
   @Post("/")
   public async createUser() {
+    /*
     await this.prisma.user.create({
       data: {
         name: "Alice",
         email: "alice@prisma.io",
       },
     });
+    */
+    return { message: "Hum hum, you wonna create a user dude?" };
   }
 }

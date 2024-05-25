@@ -16,6 +16,28 @@ services:
       - 5435:5432/tcp
     volumes:
       - "./pg_db:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      target: dev
+    ports:
+      - 3000:3000
+      - 9229:9229
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: pgdb
+      POSTGRES_PORT: 5432
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    volumes:
+      - ./:/usr/src/app
 
 
   

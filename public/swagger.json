@@ -30,27 +30,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"properties": {
-											"name": {
-												"type": "string"
-											},
-											"email": {
-												"type": "string"
-											},
-											"id": {
-												"type": "number",
-												"format": "double"
-											}
-										},
-										"required": [
-											"name",
-											"email",
-											"id"
-										],
-										"type": "object"
+									"properties": {
+										"message": {
+											"type": "string"
+										}
 									},
-									"type": "array"
+									"required": [
+										"message"
+									],
+									"type": "object"
 								}
 							}
 						}
@@ -62,8 +50,23 @@
 			"post": {
 				"operationId": "CreateUser",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"security": [],

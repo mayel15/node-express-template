@@ -26,8 +26,14 @@ app.use(
 
 app.use("/api/users", userRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send({ message: "Welcome to the template server dude!" });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running at: [http://localhost:${PORT}]`);
 });
+
+export default app;

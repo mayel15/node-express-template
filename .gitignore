@@ -5,10 +5,12 @@ dist
 #migration
 prisma/migrations
 #env
-.env
+#.env
 #swagger docs
 public
 #vscode
 .vscode
 #db persistance
 pg_db
+#coverage test
+coverage
