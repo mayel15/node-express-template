@@ -40,12 +40,16 @@
   "dependencies": {
     "@prisma/client": "^5.14.0",
     "@types/node": "^20.12.12",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
-    "tsoa": "^6.2.1"
+    "tsoa": "^6.2.1",
+    "tsyringe": "^4.8.0"
   }
 }
