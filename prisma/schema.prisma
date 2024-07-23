@@ -14,8 +14,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+enum Role {
+  ADMIN
+  USER
+}
+
+model Otp {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  code      String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Admin {
+  id                  String   @id @default(uuid())
+  role                Role     @default(ADMIN)
+  firstName           String
+  lastName            String
+  email               String   @unique
+  emailVerified       Boolean  @default(false)
+  phoneNumber         String?  @unique
+  phoneNumberVerified Boolean? @default(false)
+  password            String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

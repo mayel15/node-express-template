@@ -6,10 +6,12 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "src",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true
   },
   "lib": ["es2022"],
-  //"include": ["./src/**/*"],
-  //"exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

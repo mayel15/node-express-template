@@ -14,3 +14,6 @@ public
 pg_db
 #coverage test
 coverage
+#ignore
+.env.dev
+.env.prod

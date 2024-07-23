@@ -42,6 +42,8 @@ This is an opinionated boilerplate (template or skeleton, whatever you want) for
 git clone https://github.com/mayel15/node-express-template
 ```
 
+- 👽 Create an `environment files` at the root of the project and name them `.env.dev` for `dev environment` and `.env.prod` for `prod environment`. And after that, in those files add the `environment variables` you need by inspiring you in the `environment template file` named `.env`
+
 - 🚀 Run the server app with `Docker`
 
 ```sh

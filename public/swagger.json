@@ -6,7 +6,98 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"Role": {
+				"enum": [
+					"ADMIN",
+					"USER"
+				],
+				"type": "string"
+			},
+			"AdminModel": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"emailVerified": {
+						"type": "boolean"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"phoneNumberVerified": {
+						"type": "boolean"
+					},
+					"password": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"firstName",
+					"lastName",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserInputModel": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"phoneNumber",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"_36_Enums.Role": {
+				"type": "string",
+				"enum": [
+					"ADMIN",
+					"USER"
+				]
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -21,24 +112,16 @@
 		}
 	},
 	"paths": {
-		"/api/users": {
+		"/api/admin/all": {
 			"get": {
-				"operationId": "GetAllUsers",
+				"operationId": "GetAllAdmins",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"message"
-									],
-									"type": "object"
+									"$ref": "#/components/schemas/AdminModel"
 								}
 							}
 						}
@@ -46,9 +129,243 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/api/admin/{id}": {
+			"get": {
+				"operationId": "GetAdminById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AdminModel"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			},
+			"delete": {
+				"operationId": "DeleteAdmin",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/admin/login": {
 			"post": {
-				"operationId": "CreateUser",
+				"operationId": "Login",
+				"responses": {
+					"201": {
+						"description": "The user is created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"token": {
+													"type": "string"
+												},
+												"message": {
+													"type": "string"
+												},
+												"updatedAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"password": {
+													"type": "string"
+												},
+												"phoneNumberVerified": {
+													"type": "boolean"
+												},
+												"phoneNumber": {
+													"type": "string"
+												},
+												"emailVerified": {
+													"type": "boolean"
+												},
+												"email": {
+													"type": "string"
+												},
+												"lastName": {
+													"type": "string"
+												},
+												"firstName": {
+													"type": "string"
+												},
+												"role": {
+													"$ref": "#/components/schemas/Role"
+												},
+												"id": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"token",
+												"message",
+												"password",
+												"email",
+												"lastName",
+												"firstName",
+												"id"
+											],
+											"type": "object"
+										},
+										{
+											"type": "string",
+											"enum": [
+												"Invalid phone number",
+												"Invalid password"
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"password",
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/signup": {
+			"post": {
+				"operationId": "CreateAdmin",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										},
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"password": {
+											"type": "string"
+										},
+										"phoneNumberVerified": {
+											"type": "boolean"
+										},
+										"phoneNumber": {
+											"type": "string"
+										},
+										"emailVerified": {
+											"type": "boolean"
+										},
+										"email": {
+											"type": "string"
+										},
+										"lastName": {
+											"type": "string"
+										},
+										"firstName": {
+											"type": "string"
+										},
+										"role": {
+											"$ref": "#/components/schemas/Role"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token",
+										"message",
+										"password",
+										"email",
+										"lastName",
+										"firstName",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserInputModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/email/otp/send": {
+			"post": {
+				"operationId": "SendOtp",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -70,7 +387,462 @@
 					}
 				},
 				"security": [],
-				"parameters": []
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/email/otp/verify": {
+			"post": {
+				"operationId": "VerifyOtp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"otp": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"otp",
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/{id}/password": {
+			"put": {
+				"operationId": "UpdatePassword",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"password": {
+											"type": "string"
+										},
+										"phoneNumberVerified": {
+											"type": "boolean"
+										},
+										"phoneNumber": {
+											"type": "string"
+										},
+										"emailVerified": {
+											"type": "boolean"
+										},
+										"email": {
+											"type": "string"
+										},
+										"lastName": {
+											"type": "string"
+										},
+										"firstName": {
+											"type": "string"
+										},
+										"role": {
+											"$ref": "#/components/schemas/_36_Enums.Role"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"updatedAt",
+										"createdAt",
+										"password",
+										"phoneNumberVerified",
+										"phoneNumber",
+										"emailVerified",
+										"email",
+										"lastName",
+										"firstName",
+										"role",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"password"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/{id}/email": {
+			"put": {
+				"operationId": "UpdateEmail",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"password": {
+											"type": "string"
+										},
+										"phoneNumberVerified": {
+											"type": "boolean"
+										},
+										"phoneNumber": {
+											"type": "string"
+										},
+										"emailVerified": {
+											"type": "boolean"
+										},
+										"email": {
+											"type": "string"
+										},
+										"lastName": {
+											"type": "string"
+										},
+										"firstName": {
+											"type": "string"
+										},
+										"role": {
+											"$ref": "#/components/schemas/_36_Enums.Role"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"updatedAt",
+										"createdAt",
+										"password",
+										"phoneNumberVerified",
+										"phoneNumber",
+										"emailVerified",
+										"email",
+										"lastName",
+										"firstName",
+										"role",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/{id}/phone-number": {
+			"put": {
+				"operationId": "UpdatePhoneNumber",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"password": {
+											"type": "string"
+										},
+										"phoneNumberVerified": {
+											"type": "boolean"
+										},
+										"phoneNumber": {
+											"type": "string"
+										},
+										"emailVerified": {
+											"type": "boolean"
+										},
+										"email": {
+											"type": "string"
+										},
+										"lastName": {
+											"type": "string"
+										},
+										"firstName": {
+											"type": "string"
+										},
+										"role": {
+											"$ref": "#/components/schemas/_36_Enums.Role"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"updatedAt",
+										"createdAt",
+										"password",
+										"phoneNumberVerified",
+										"phoneNumber",
+										"emailVerified",
+										"email",
+										"lastName",
+										"firstName",
+										"role",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"phoneNumber": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"phoneNumber"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/admin/{id}/full-name": {
+			"put": {
+				"operationId": "UpdateFullName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"password": {
+											"type": "string"
+										},
+										"phoneNumberVerified": {
+											"type": "boolean"
+										},
+										"phoneNumber": {
+											"type": "string"
+										},
+										"emailVerified": {
+											"type": "boolean"
+										},
+										"email": {
+											"type": "string"
+										},
+										"lastName": {
+											"type": "string"
+										},
+										"firstName": {
+											"type": "string"
+										},
+										"role": {
+											"$ref": "#/components/schemas/_36_Enums.Role"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"updatedAt",
+										"createdAt",
+										"password",
+										"phoneNumberVerified",
+										"phoneNumber",
+										"emailVerified",
+										"email",
+										"lastName",
+										"firstName",
+										"role",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"lastName": {
+										"type": "string"
+									},
+									"firstName": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"lastName",
+									"firstName"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
